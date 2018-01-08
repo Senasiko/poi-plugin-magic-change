@@ -10,6 +10,9 @@ export default (state=initalState, action) => {
     case types.change_ship:
       newState.nowShip = action.newShip || initalState.nowShip;
       break;
+    case types.change_shimakazeGoPath:
+      newState.shimakazeGoPath = action.path;
+      break;
     default: return state;
 
   }

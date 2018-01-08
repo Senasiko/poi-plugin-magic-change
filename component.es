@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { bindActionCreators } from 'redux';
+              import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
@@ -8,7 +8,8 @@ import actions from './store/actions.es';
 import styles from './css.es'
 import { pluginName } from './store/state.es';
 import { magicShipList } from './store/selectors.es';
-import NowShip from './views/NowShip.es'
+import NowShip from './views/NowShip.es';
+import Menus from './views/Menus.es';
 
 class Magic extends Component {
   FieldGroup({ id, label, help, ...props }) {
@@ -44,6 +45,7 @@ class Magic extends Component {
           })
         }
       </Form>
+      <Menus/>
       </div>
     )
   }

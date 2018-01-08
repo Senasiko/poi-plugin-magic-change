@@ -25,7 +25,13 @@ const change_ship = (filePath) => {
   };
 };
 
+const change_shimakazeGoPath = path => ({
+  type: types.change_shimakazeGoPath,
+  path,
+})
+
 export default {
   init_ship,
   change_ship,
+  change_shimakazeGoPath,
 }
