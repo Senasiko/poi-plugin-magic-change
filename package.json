@@ -1,0 +1,20 @@
+{
+  "name": "poi-plugin-magic-change",
+  "version": "0.0.1-beta.1",
+  "description": "ship magic change",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kancolle",
+    "magic",
+    "change"
+  ],
+  "author": "senasiko",
+  "license": "MIT",
+  "poiPlugin": {
+    "title": "舰娘魔改",
+    "icon": "fa/beer"
+  }
+}
