@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import SetShimakaze from './SetShimakaze.es';
+import Upload from './Upload.es'
 
 class Menus extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Menus extends React.Component {
         },
         {
           label: '导入魔改',
-          key: 2
+          key: 2,
+          component: <Upload/>,
         },
         {
           label: '初始化魔改',
@@ -32,7 +34,7 @@ class Menus extends React.Component {
     })
   }
   getMenu() {
-    
+
   }
   render() {
     const { menus, nowMenu } = this.state;

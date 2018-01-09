@@ -15,9 +15,18 @@ export const shipImg = {
   display: 'inline-block'
 }
 
+export const uploadContainer = {
+  width: '100%',
+  height: '100%',
+  textAlign: 'center',
+  lineHeight: '100%',
+  color: 'rgb(166, 166, 166)'
+}
+
 
 export default {
   carousel,
   carouselItem,
   shipImg,
+  uploadContainer,
 }
