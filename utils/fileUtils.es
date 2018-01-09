@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const {readFromBufferP, extractImages} = require('swf-extract');
+import { memoize } from 'fast-memoize';
 import initalState from '../store/state.es';
 import { shimakazeGoPath } from '../store/selectors.es';
 import { store } from 'views/create-store.es';
@@ -23,7 +24,7 @@ export const read_data_file = () => {
   return data;
 };
 
-export const read_ShimakazeGoDate = async () => {
+export const read_ShimakazeGoDate = memoize(async () => {
   let data;
   let shimakazeGoPath = shimakazeGoPath(store.getState());
   try {
@@ -31,7 +32,7 @@ export const read_ShimakazeGoDate = async () => {
   } catch (e) {
 
   }
-};
+});
 
 export const read_swf_file = async (filePath) => {
   const rawData = fs.readFileSync(filePath);

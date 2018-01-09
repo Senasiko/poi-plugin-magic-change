@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import memoize from 'fast-memoize';
 import {
   extensionSelectorFactory,
   shipDataSelectorFactory
@@ -29,22 +28,22 @@ export const magicList = createSelector(
 );
 
 // get magicChange by id
-export const magicDataFactory = memoize(magicId => createSelector(
+export const magicDataFactory = magicId => createSelector(
     [magicList],
     list => list[magicId] || {}
-))
+)
 
 // get ship magicData by shipId
-export const shipMagicDataFactory = memoize(shipId => createSelector(
+export const shipMagicDataFactory = shipId => createSelector(
     [magicShipList, magicList],
     (shipList, magicList) => shipList[shipId]?shipList[shipId].magicList.map(
-      magicId => magicList[magicId]
+      magicId => magicDataFactory(magicId)
     ):[]
-));
+);
 
 // get now ship's base data and magicChange data
-export const shipBaseAndMagicDataFactory = memoize(shipId => createSelector(
+export const shipBaseAndMagicDataFactory = shipId => createSelector(
   [shipDataSelectorFactory(shipId), shipMagicDataFactory(shipId)],
   (shipArray, magicList) =>
     Object.assign(typeof shipArray === 'array'?shipArray[1]:{}, {magicList}) || {}
-));
+);

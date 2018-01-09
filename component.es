@@ -1,15 +1,15 @@
 import { Component } from 'react';
-              import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 import { store } from 'views/create-store';
 import actions from './store/actions.es';
-import styles from './css.es'
 import { pluginName } from './store/state.es';
 import { magicShipList } from './store/selectors.es';
 import NowShip from './views/NowShip.es';
 import Menus from './views/Menus.es';
+import styles from './css.es';
 
 class Magic extends Component {
   FieldGroup({ id, label, help, ...props }) {
