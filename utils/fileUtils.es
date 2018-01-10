@@ -4,12 +4,15 @@ const upzip = require('node-unzip-2');
 const {readFromBufferP, extractImages} = require('swf-extract');
 import memoize from 'fast-memoize';
 import initalState from '../store/state.es';
+import {
+  appDataPath,
+  tempDir,
+  magicChangeDir,
+  dataFile,
+} from '../config.es';
 import { store } from 'views/create-store.es';
 
-const dataDir = window.APPDATA_PATH;
-const tempDir = path.join(dataDir, 'magicChangetemp');
-const magicChangeDir = path.join(dataDir, 'magicChange');
-const dataFile = path.join(magicChangeDir, 'poi-plugin-magic-change.json');
+
 
 export const change_swf = () => {
   const filePath = path.join(__dirname, 'data')
@@ -20,20 +23,25 @@ export const read_data_file = () => {
   try {
     data = fs.readJsonSync(dataFile);
   } catch (e) {
-
     data = fs.writeJsonSync(dataFile, initalState);
   }
-  return data;
+  return data || {};
 };
 
-export const read_ShimakazeGoDate = memoize(async (shimakazeGoRoot) => {
-  let data;
+export const read_shimakazeGoData = async (shimakazeGoRoot) => {
   try {
-    data = fs.readFileSync(shimakazeGoRoot);
+    if (shimakazeGoRoot) {
+      let shipData = await fs.readJsonSync(path.join(shimakazeGoRoot, 'cache', 'kcs', 'cache_check.json'));
+      return shipData;
+    } else {
+      toast('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
+      return {};
+    }
   } catch (e) {
-    toast(e, { type: 'error' })
+    toast(e, { type: 'error' });
+    return {};
   }
-});
+};
 
 export const set_magicChange_file = (async (file, magicChangeId) => {
   try {
@@ -64,7 +72,8 @@ export const set_magicChange_file = (async (file, magicChangeId) => {
 
     }
   } catch (e) {
-    toast(e, { type: 'error' })
+    toast(e, { type: 'error' });
+    throw e;
   } finally {
 
   }

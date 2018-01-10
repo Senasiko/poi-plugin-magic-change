@@ -12,6 +12,10 @@ export default (state=initalState, action) => {
       break;
     case types.change_shimakazeGoPath:
       newState.shimakazeGoPath = action.path;
+      newState.shimakazeGoData = action.shimakazeGoData;
+      break;
+    case types.new_magicChange:
+      newState.magicList.push(action.magicId);
       break;
     default: return state;
 

@@ -15,8 +15,7 @@ class Upload extends React.Component {
     const { upload_magicChange } = this.props.actions;
     e.preventDefault();
     e.stopPropagation();
-    console.log('drop', e.dataTransfer.files);
-    upload_magicChange(e.dataTransfer.files[0])
+    upload_magicChange(e.dataTransfer.files)
   }
 
   onDragOver(e) {
@@ -33,6 +32,7 @@ class Upload extends React.Component {
         >
           将swf文件拖到此处
         </div>
+        {// magic form }
       </div>
 
     );
