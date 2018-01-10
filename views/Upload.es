@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../store/actions.es';
 import styles from '../css.es';
-import { set_magicChange_file } from '../utils/fileUtils.es';
 
 class Upload extends React.Component {
   constructor(props) {
@@ -13,10 +12,11 @@ class Upload extends React.Component {
     }
   }
   onDrop(e) {
+    const { upload_magicChange } = this.props.actions;
     e.preventDefault();
     e.stopPropagation();
     console.log('drop', e.dataTransfer.files);
-    set_magicChange_file(e.dataTransfer.files[0])
+    upload_magicChange(e.dataTransfer.files[0])
   }
 
   onDragOver(e) {
@@ -24,7 +24,6 @@ class Upload extends React.Component {
     e.stopPropagation();
   }
   render() {
-    const { upload_magicChange } = this.props.actions;
     return (
       <div>
         <div

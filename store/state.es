@@ -14,7 +14,6 @@ export const shipData = {
 }
 
 export default {
-  showComonent: false,
   shipList: [{...shipData}],
   magicList: [],
   nowShip: {...shipData},

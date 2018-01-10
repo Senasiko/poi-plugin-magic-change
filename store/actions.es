@@ -28,7 +28,11 @@ const change_ship = (filePath) => {
 const change_shimakazeGoPath = path => ({
   type: types.change_shimakazeGoPath,
   path,
-})
+});
+
+const upload_magicChange = file => async dispatch => {
+  
+}
 
 export default {
   init_ship,
