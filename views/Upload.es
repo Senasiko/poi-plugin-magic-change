@@ -32,7 +32,6 @@ class Upload extends React.Component {
         >
           将swf文件拖到此处
         </div>
-        {// magic form }
       </div>
 
     );

@@ -18,4 +18,8 @@ export default {
   magicList: [],
   nowShip: {...shipData},
   shimakazeGoPath: '',
+  shimakazeGoData: {
+    shipData: [],
+    resData: [],
+  }
 };

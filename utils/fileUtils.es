@@ -31,16 +31,20 @@ export const read_data_file = () => {
 export const read_shimakazeGoData = async (shimakazeGoRoot) => {
   try {
     if (shimakazeGoRoot) {
-      let shipData = await fs.readJsonSync(path.join(shimakazeGoRoot, 'cache', 'kcs', 'cache_check.json'));
-      return shipData;
+      const dataDir = path.join(shimakazeGoRoot, 'data', 'KanColle');
+      let shipData = await fs.readJsonSync(path.join(dataDir, 'picture_book.json'));
+      let resData = await fs.readJsonSync(path.join(dataDir, 'static_res.json'));
+      return {
+        shipData,
+        resData
+      };
     } else {
       toast('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
-      return {};
     }
   } catch (e) {
     toast(e, { type: 'error' });
-    return {};
   }
+  return null;
 };
 
 export const set_magicChange_file = (async (file, magicChangeId) => {

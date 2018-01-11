@@ -1,5 +1,8 @@
 import types from './types.es';
-import { shimakazeGoPath } from './selectors.es';
+import {
+  shimakazeGoPath,
+  shipDataInShimakzeGoFactory
+} from './selectors.es';
 import {
   read_data_file,
   read_swf_file,
@@ -12,11 +15,16 @@ const init_ship = () => {
   return async (dispatch, getState) => {
     let data = await read_data_file();
     let shimakazeGoData = await read_shimakazeGoData(data.shimakazeGoPath);
-    data.shimakazeGoData = shimakazeGoData;
-    dispatch({
-      type: types.init_ship,
-      data,
-    })
+    if (!shimakazeGoData) {
+      toast('请检查岛风Go文件完整性', { type: 'warning', title: '舰娘魔改' });
+    }else {
+      data.shimakazeGoData = shimakazeGoData;
+      dispatch({
+        type: types.init_ship,
+        data,
+      })
+    }
+
   };
 };
 
@@ -52,9 +60,10 @@ const upload_magicChange = files => async dispatch => {
     }
     dispatch({
       type: types.new_magicChange,
-      magicId
-    })
-  }catch{
+      magicId,
+      shipId:
+    });
+  }catch(e) {
 
   }
 
