@@ -17,6 +17,9 @@ class Magic extends Component {
   		<FormGroup controlId={id}>
   			<ControlLabel>{label}</ControlLabel>
   			<FormControl {...props} />
+        {
+          props.children
+        }
   			{help && <HelpBlock>{help}</HelpBlock>}
   		</FormGroup>
   	);
@@ -39,7 +42,7 @@ class Magic extends Component {
             bsSize: 'small',
             placeholder: "请选择舰娘",
             width: 200,
-            children: magicShipList.map(ship =>
+            children: Object.values(magicShipList).map(ship =>
               <option key={ship.id} value={ship.id}>{ship.name}</option>
             )
           })

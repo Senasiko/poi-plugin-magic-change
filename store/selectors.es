@@ -1,11 +1,10 @@
 import { createSelector } from 'reselect';
+import memoize from 'fast-memoize';
 import {
   extensionSelectorFactory,
   constSelector
  } from 'views/utils/selectors.es';
- import { pluginName, magicData, shipData } from './state.es'
-
-export const
+ import { pluginName, magicData, shipModel } from './state.es'
 
  export const pluginData = createSelector(
    [extensionSelectorFactory(pluginName)],
@@ -17,27 +16,41 @@ export const shimakazeGoPath = createSelector(
   state => state.shimakazeGoPath || ''
 )
 
-export const shimakazeGoData = createSelector(
-  [pluginData],
-  state => state.shimakazeGoData || ''
-)
-
 // get all has magicChange's ship
 export const magicShipList = createSelector(
   [pluginData],
-  state => state.shipList || [{...shipData}]
+  state => state.shipList || {}
 );
 
 // get magicList
 export const magicList = createSelector(
   [pluginData],
-  state => state.magicList || [{...magicData}]
+  state => state.magicList || {}
 );
 
-export const shipBaseDataFactory = shipId => createSelector(
+export const magicShipDataFactory = shipId => createSelector(
+  [magicShipList],
+  list => list[shipId] || {}
+);
+
+export const shipBaseDataFactory = memoize(shipId => createSelector(
   [constSelector],
-  ({ $ship }) => {console.log($ship);return $ships[shipId] || {}}
-)
+  ({ $ship }) => $ships[shipId] || {}
+))
+
+export const shipGraphsDataFactory = memoize(shipId => createSelector(
+  [constSelector],
+  ({ $shipgraph }) => $shipgraph[shipId - 1] || {}
+))
+
+export const shipIdByFileName = memoize(fileName => createSelector(
+  [constSelector],
+  ({ $shipgraph }) => {
+    let ship = $shipgraph.find(graph => graph.api_filename === fileName);
+    // if not ship, return undefined;
+    return ship || ship.api_id;
+  }
+))
 
 // get magicChange by id
 export const magicDataFactory = magicId => createSelector(
@@ -53,25 +66,14 @@ export const shipMagicListFactory = shipId => createSelector(
     ):[]
 );
 
-//
-export const shipListInShimakzeGo = createSelector(
-  [shimakazeGoData],
-  (shimakazeGoData) => shimakazeGoData.shipData || []
-);
-
-export const resListInShimakzeGo = createSelector(
-  [shimakazeGoData],
-  (shimakazeGoData) => shimakazeGoData.resData || []
-);
-
-export const shipFileNameInShimakazeGo = shipId => createSelector(
-  [shipListInShimakzeGo, resListInShimakzeGo],
-  (shipListInShimakzeGo, resListInShimakzeGo) => shimakazeGoData.resData || []
-);
-
 // get now ship's base data and magicChange data
 export const shipBaseAndMagicDataFactory = shipId => createSelector(
-  [shipBaseDataFactory(shipId), shipMagicListFactory(shipId)],
-  (shipArray, magicList) =>
-    Object.assign(typeof shipArray === 'array'?shipArray[shipId]:{}, {magicList}) || {}
+  [shipBaseDataFactory(shipId), shipGraphsDataFactory(shipId), shipMagicListFactory(shipId)],
+  (shipArray, shipgraph, magicList) =>
+    Object.assign(
+      typeof shipArray === 'array'?shipArray[shipId]:{},
+      {
+        magicList,
+        ...shipgraph
+      }) || {}
 );

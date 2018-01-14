@@ -21,6 +21,7 @@ export const change_swf = () => {
 export const read_data_file = () => {
   let data;
   try {
+    fs.ensureDirSync(magicChangeDir);
     data = fs.readJsonSync(dataFile);
   } catch (e) {
     data = fs.writeJsonSync(dataFile, initalState);

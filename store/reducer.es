@@ -1,4 +1,4 @@
-import initalState from './state.es';
+import initalState, { magicModel, shipModel } from './state.es';
 import types from './types.es';
 
 export default (state=initalState, action) => {
@@ -15,7 +15,18 @@ export default (state=initalState, action) => {
       newState.shimakazeGoData = action.shimakazeGoData || {};
       break;
     case types.new_magicChange:
-      newState.magicList.push(action.magicId);
+      newState.magicList[action.magic.id] = {
+        ...magicModel,
+        ...action.magic,
+      };
+      // if shipId is not exist, create her;
+      if (!action.existedShip) {
+        newState.shipList[action.shipId] = {
+          ...shipModel,
+          id: action.shipId
+        };
+      }
+      newState.shipList[action.shipId].magicList.push(action.magic.id);
       break;
     default: return state;
 
