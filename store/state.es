@@ -2,9 +2,8 @@ export const pluginName = 'poi-plugin-magic-change';
 
 export const magicModel = {
   id: 0,
-  name: '',
+  name: '未命名',
   description: '',
-  fileName: '',
   imgs: []
 }
 
@@ -14,8 +13,8 @@ export const shipModel = {
 }
 
 export default {
-  shipList: {0: { ...shipModel }},
+  shipList: {},
   magicList: {},
-  nowShip: {...shipModel},
+  nowShip: {},
   shimakazeGoPath: '',
 };
