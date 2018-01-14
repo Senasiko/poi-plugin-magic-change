@@ -22,12 +22,12 @@ export default (state=initalState, action) => {
       };
       // if shipId is not exist, create her;
       if (!action.existedShip) {
-        newState.shipList[action.shipId] = {
+        newState.shipList[action.ship.id] = {
           ...cloneDeepWith(shipModel),
-          id: action.shipId
+          ...action.ship,
         };
       }
-      newState.shipList[action.shipId].magicList.push(action.magic.id);
+      newState.shipList[action.ship.id].magicList.push(action.magic.id);
       break;
     default: return state;
 

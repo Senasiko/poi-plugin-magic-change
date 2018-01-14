@@ -7,19 +7,18 @@ import {
 import { dataFile } from '../config.es';
 
 // set data json file
-const unsubscribeShimakazeGoObserve = observe(store, [
+const unsubscribeDataObserve = observe(store, [
   observer(
     state => pluginData(state),
     (dispatch, current, previous) => {
       if (Object.keys(previous).length > 0){
-        let data = {...current};
-        fs.writeFileSync(dataFile, JSON.stringify(data));
+        fs.writeFileSync(dataFile, JSON.stringify(current));
       }
     }
   )]
 );
 
 
-export function pluginWillUnload() {
-  unsubscribeShimakazeGoObserve();
+export default {
+  unsubscribeDataObserve
 }

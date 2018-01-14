@@ -4,7 +4,7 @@ import {
   extensionSelectorFactory,
   constSelector
  } from 'views/utils/selectors.es';
- import { pluginName, magicData, shipModel } from './state.es'
+ import { pluginName } from '../config.es'
 
  export const pluginData = createSelector(
    [extensionSelectorFactory(pluginName)],
@@ -47,8 +47,7 @@ export const shipIdByFileName = memoize(fileName => createSelector(
   [constSelector],
   ({ $shipgraph }) => {
     let ship = $shipgraph.find(graph => graph.api_filename === fileName);
-    // if not ship, return undefined;
-    return ship || ship.api_id;
+    return ship || {};
   }
 ))
 
@@ -64,6 +63,18 @@ export const shipMagicListFactory = shipId => createSelector(
     (shipList, magicList) => shipList[shipId]?shipList[shipId].magicList.map(
       magicId => magicDataFactory(magicId)
     ):[]
+);
+
+// get shipList with magicData
+export const shipListWithMagicData = createSelector(
+    [magicShipList, magicList],
+    (shipList, magicList) => {
+      for (let ship of Object.values(shipList)){
+        debugger
+        ship.magicList = ship.magicList.map(magicId => magicList[magicId]);
+      }
+      return shipList;
+    }
 );
 
 // get now ship's base data and magicChange data

@@ -5,4 +5,5 @@ export const tempDir = path.join(appDataPath, 'magicChangetemp');
 export const magicChangeDir = path.join(appDataPath, 'magicChange');
 export const dataFile = path.join(magicChangeDir, 'poi-plugin-magic-change.json');
 
+export const pluginName = 'poi-plugin-magic-change';
 export const swfImgJson = 'images.json';

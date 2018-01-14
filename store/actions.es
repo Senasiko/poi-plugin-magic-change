@@ -2,7 +2,8 @@ import types from './types.es';
 import {
   shimakazeGoPath,
   shipIdByFileName,
-  magicShipDataFactory
+  magicShipDataFactory,
+  shipBaseDataFactory,
 } from './selectors.es';
 import {
   read_data_file,
@@ -53,12 +54,19 @@ const upload_magicChange = files => async (dispatch, getState) => {
     let fileName = files[0].name.split('.')[0];
     let ship = shipIdByFileName(fileName)(getState());
     if (ship) {
+      ship = {
+        ...ship,
+        ...shipBaseDataFactory(ship.api_id)(getState()),
+      }
       console.log('ship', magicShipDataFactory(ship.api_id)(getState()));
       dispatch({
         type: types.new_magicChange,
         magic: { id: magicId, fileName },
         existedShip: Object.keys(magicShipDataFactory(ship.api_id)(getState())).length > 0,
-        shipId: ship.api_id
+        ship: {
+          id: ship.api_id,
+          name: ship.api_name
+        }
       });
     }else {
       toast('找不到对应文件名的舰娘 id，请检查文件名');
