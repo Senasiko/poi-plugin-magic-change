@@ -9,6 +9,7 @@ import {
   tempDir,
   magicChangeDir,
   dataFile,
+  swfImgJson,
 } from '../config.es';
 import { store } from 'views/create-store.es';
 
@@ -55,11 +56,11 @@ export const set_magicChange_file = (async (file, magicChangeId) => {
     switch (file.type) {
       case 'application/x-shockwave-flash':
         fs.ensureDirSync(fileDir);
-        fs.copy(file.path, path.join(fileDir, file.name));
+        fs.copySync(file.path, path.join(fileDir, file.name));
         break;
       case '':
         fs.ensureDirSync(tempDir);
-        fs.copy(file.path, tempDir);
+        fs.copySync(file.path, tempDir);
         // fs.createReadStream('path/to/archive.zip')
         // .pipe(unzip.Parse())
         // .on('entry', function (entry) {
@@ -91,10 +92,18 @@ export const read_swf_file = async (filePath) => {
   return ts;
 };
 
-export const get_swf_img_base64 = async (filePath) => {
-  const imgDatas = await read_swf_file(filePath);
-  window.imgDatas = imgDatas;
-  return imgDatas.map(img => `data:image/${img.imgType};base64,${img.imgData.toString('base64')}`);
-};
+export const get_swf_img_base64 = memoize(async (filePath) => {
+  let imgFile = path.join(dir, swfImgJson);
+  let dir = path.dirname(filePath);
+  let imgDatas;
+  try {
+    imgDatas = fs.readJsonSync(imgFile);
+  }catch (e) {
+    imgDatas = await read_swf_file(filePath)
+      .imgDatas.map(img => `data:image/${img.imgType};base64,${img.imgData.toString('base64')}`);
+    fs.writeJsonSync(imgFile, imgDatas);
+  }
+  return imgDatas;
+});
 
 const getRandomStr = () => Math.random().toString(36).substr(2);

@@ -52,11 +52,12 @@ const upload_magicChange = files => async (dispatch, getState) => {
     for (let file of files) {
       await set_magicChange_file(file, magicId);
     }
-    let ship = shipIdByFileName(files[0].name.split('.')[0])(getState());
+    let fileName = files[0].name.split('.')[0];
+    let ship = shipIdByFileName(fileName)(getState());
     if (ship) {
       dispatch({
         type: types.new_magicChange,
-        magic: { id: magicId },
+        magic: { id: magicId, fileName },
         existedShip: Object.keys(magicShipDataFactory(ship.api_id)(getState())) > 0,
         shipId: ship.api_id
       });

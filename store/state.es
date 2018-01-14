@@ -4,6 +4,7 @@ export const magicModel = {
   id: 0,
   name: '未命名',
   description: '',
+  fileName: '',
   imgs: []
 }
 
