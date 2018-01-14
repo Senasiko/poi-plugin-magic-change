@@ -1,14 +1,15 @@
+import { cloneDeepWith } from 'lodash';
 import initalState, { magicModel, shipModel } from './state.es';
 import types from './types.es';
 
 export default (state=initalState, action) => {
-  let newState = {...state};
+  let newState = { ...cloneDeepWith(state) };
   switch (action.type) {
     case types.init_ship:
-      newState = { ...initalState, ...action.data };
+      newState = { ...cloneDeepWith(initalState), ...action.data };
       break;
     case types.change_ship:
-      newState.nowShip = { ...initalState.nowShip, ...action.newShip };
+      newState.nowShip = { ...cloneDeepWith(initalState.nowShip), ...action.newShip };
       break;
     case types.change_shimakazeGoPath:
       newState.shimakazeGoPath = action.path || '';
@@ -16,13 +17,13 @@ export default (state=initalState, action) => {
       break;
     case types.new_magicChange:
       newState.magicList[action.magic.id] = {
-        ...magicModel,
+        ...cloneDeepWith(magicModel),
         ...action.magic,
       };
       // if shipId is not exist, create her;
       if (!action.existedShip) {
         newState.shipList[action.shipId] = {
-          ...shipModel,
+          ...cloneDeepWith(shipModel),
           id: action.shipId
         };
       }

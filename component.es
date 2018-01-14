@@ -17,9 +17,6 @@ class Magic extends Component {
   		<FormGroup controlId={id}>
   			<ControlLabel>{label}</ControlLabel>
   			<FormControl {...props} />
-        {
-          props.children
-        }
   			{help && <HelpBlock>{help}</HelpBlock>}
   		</FormGroup>
   	);

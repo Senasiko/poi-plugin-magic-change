@@ -10,7 +10,7 @@ export const magicModel = {
 
 export const shipModel = {
   id: 0,
-  magicList: [magicModel.id]
+  magicList: []
 }
 
 export default {

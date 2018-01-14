@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import SetShimakaze from './SetShimakaze.es';
 import Upload from './Upload.es'
+import SelectMagic from './SelectMagic.es';
 
-class Menus extends React.Component {
+class Menus extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

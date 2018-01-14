@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import actions from '../store/actions.es';
 import styles from '../css.es';
 
-class Upload extends React.Component {
+class Upload extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -5,7 +5,7 @@ import { shimakazeGoPath } from '../store/selectors.es';
 import actions from '../store/actions.es';
 import { ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
-class Setting extends React.Component {
+class Setting extends React.PureComponent {
   constructor(props) {
     super(props);
     console.log(props);
@@ -15,7 +15,6 @@ class Setting extends React.Component {
   }
   render() {
     const { shimakazeGoPath } = this.state;
-    console.log(this.state);
     const { change_shimakazeGoPath } = this.props.actions;
     return (
       <div>

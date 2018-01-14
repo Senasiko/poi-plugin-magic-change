@@ -13,7 +13,6 @@ const unsubscribeShimakazeGoObserve = observe(store, [
     (dispatch, current, previous) => {
       if (Object.keys(previous).length > 0){
         let data = {...current};
-        delete data.shimakazeGoData;
         fs.writeFileSync(dataFile, JSON.stringify(data));
       }
     }

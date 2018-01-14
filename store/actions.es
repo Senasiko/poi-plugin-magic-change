@@ -37,11 +37,9 @@ const change_ship = (filePath) => {
 };
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {
-  let shimakazeGoData = await read_shimakazeGoData(path);
   dispatch({
     type: types.change_shimakazeGoPath,
     path,
-    shimakazeGoData,
   });
 };
 
@@ -55,10 +53,11 @@ const upload_magicChange = files => async (dispatch, getState) => {
     let fileName = files[0].name.split('.')[0];
     let ship = shipIdByFileName(fileName)(getState());
     if (ship) {
+      console.log('ship', magicShipDataFactory(ship.api_id)(getState()));
       dispatch({
         type: types.new_magicChange,
         magic: { id: magicId, fileName },
-        existedShip: Object.keys(magicShipDataFactory(ship.api_id)(getState())) > 0,
+        existedShip: Object.keys(magicShipDataFactory(ship.api_id)(getState())).length > 0,
         shipId: ship.api_id
       });
     }else {
