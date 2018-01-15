@@ -1,12 +1,12 @@
-import { cloneDeepWith } from 'lodash';
+import { cloneDeepWith, clone } from 'lodash';
 import initalState, { magicModel, shipModel } from './state.es';
 import types from './types.es';
 
 export default (state=initalState, action) => {
-  let newState = { ...cloneDeepWith(state) };
+  let newState = { ...state };
   switch (action.type) {
     case types.init_ship:
-      newState = { ...cloneDeepWith(initalState), ...action.data };
+      newState = { ...initalState, ...action.data };
       break;
     case types.change_ship:
       newState.nowShip = { ...cloneDeepWith(initalState.nowShip), ...action.newShip };
@@ -28,9 +28,17 @@ export default (state=initalState, action) => {
         };
       }
       newState.shipList[action.ship.id].magicList.push(action.magic.id);
+      updateState(newState, ['shipList', 'magicList'])
       break;
     default: return state;
 
   }
   return newState;
+};
+
+
+const updateState = (state, changeList) => {
+  for (let name of changeList) {
+    state[name] = clone(state[name]);
+  }
 };
