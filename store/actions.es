@@ -1,16 +1,19 @@
+import path from 'path';
+import { magicChangeDir } from '../config.es'
 import types from './types.es';
 import {
   shimakazeGoPath,
   shipIdByFileName,
   magicShipDataFactory,
   shipBaseDataFactory,
+  magicDataFactory,
 } from './selectors.es';
 import {
   read_data_file,
   read_swf_file,
   get_swf_img_base64,
   set_magicChange_file,
-  read_shimakazeGoData
+  read_shimakazeGoData,
 } from '../utils/fileUtils.es';
 
 const init_ship = () => {
@@ -23,18 +26,20 @@ const init_ship = () => {
   };
 };
 
-const change_ship = (filePath) => {
-  return async (dispatch) => {
-    let imgs = await get_swf_img_base64(filePath);
-    console.log('base64_img', imgs);
-    dispatch({
-      type: types.change_ship,
-      newShip: {
-        name: 'shenhai',
-        imgs
-      }
-    });
-  };
+const change_ship = shipId => ({
+  type: types.change_ship,
+  shipId
+});
+
+const change_magic = magicId => async (dispatch, getState) => {
+  // if magic's image message is not exist, judge the image.json exist? if not, read swf.
+  let magic = magicDataFactory(magicId)(getState());
+  let imgs = magic.imgs || [];
+  if (imgs.length === 0) {
+    // need shipId, change get_swf_img_base64 function, add error handler when file is not exist
+    let data = get_swf_img_base64(path.join(magicChangeDir, magicId, mgicId + '.hack.swf'));
+
+  }
 };
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {

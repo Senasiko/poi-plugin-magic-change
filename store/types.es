@@ -1,6 +1,8 @@
+import { pluginName } from '../config.es';
 export default {
-  change_ship: 'CHANGE_SHIP',
-  init_ship: 'INIT_SHIP',
-  change_shimakazeGoPath: 'CHANGE_SHIMAKAZEGOPATH',
-  new_magicChange: 'NEW_MAGICCHANGE',
+  init_ship: `@${pluginName}/INIT_SHIP`,
+  change_ship: `@${pluginName}/CHANGE_SHIP`,
+  change_magic: `@${pluginName}/CHANGE_MAGIC`,
+  change_shimakazeGoPath: `@${pluginName}/CHANGE_SHIMAKAZEGOPATH`,
+  new_magicChange: `@${pluginName}/NEW_MAGICCHANGE`,
 };
