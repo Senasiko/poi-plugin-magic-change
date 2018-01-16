@@ -5,7 +5,7 @@ import {
   extensionSelectorFactory,
   constSelector
  } from 'views/utils/selectors.es';
- import { pluginName } from '../config.es'
+ import { pluginName } from '../config.es';
 
  export const pluginData = createSelector(
    [extensionSelectorFactory(pluginName)],
@@ -30,8 +30,8 @@ export const magicList = createSelector(
 );
 
 export const nowMagicData = createSelector(
-  [pluginData],
-  state => state.nowMagic
+  [pluginData, magicList],
+  (state, magicList) => magicList[state.nowMagicId] || {}
 );
 
 export const magicShipDataFactory = shipId => createSelector(
@@ -92,5 +92,15 @@ export const shipBaseAndMagicDataFactory = shipId => createSelector(
       {
         magicList,
         ...shipgraph
-      }) || {}
+      }
+    ) || {}
+);
+
+
+export const nowShipByNowMagic = createSelector(
+  [shipListWithMagicData, pluginData],
+  (shipList, state) =>
+    Object.values(shipList).find(ship => ship.magicList.find(magic => magic.id === state.nowMagicId)) || {
+      magicList: []
+    }
 );

@@ -27,20 +27,24 @@ const init_ship = () => {
   };
 };
 
-const change_magic = magicId => async (dispatch, getState) => {
-  // if magic's image message is not exist, judge the image.json exist? if not, read swf.
-  let magic = magicDataFactory(magicId)(getState());
-  let imgs = magic.imgs || [];
-  if (imgs.length === 0) {
-    // need shipId, change get_swf_img_base64 function, add error handler when file is not exist
-    imgs = await get_swf_img_base64(path.join(magicChangeDir, magicId, magic.fileName + '.hack.swf'));
-  }
-  dispatch({
-    type: types.change_magic,
-    magic,
-    imgs,
-  })
-};
+const change_magic = magicId => ({
+  type: types.change_magic,
+  magicId
+})
+// async (dispatch, getState) => {
+//   // if magic's image message is not exist, judge the image.json exist? if not, read swf.
+//   let magic = magicDataFactory(magicId)(getState());
+//   let imgs = magic.imgs || [];
+//   if (imgs.length === 0) {
+//     // need shipId, change get_swf_img_base64 function, add error handler when file is not exist
+//     imgs = await get_swf_img_base64(path.join(magicChangeDir, magicId, magic.fileName + '.hack.swf'));
+//   }
+//   dispatch({
+//     type: types.change_magic,
+//     magic,
+//     imgs,
+//   })
+// };
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {
   dispatch({

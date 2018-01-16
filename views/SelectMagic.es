@@ -5,21 +5,23 @@ import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'r
 import actions from '../store/actions.es';
 import {
   shipListWithMagicData,
-  nowMagicData
+  nowShipByNowMagic,
+  nowMagicData,
  } from '../store/selectors.es';
 import styles from '../css.es';
 
-class Magic extends PureComponent {
+class SelectMagic extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedShip: {
-        name: '',
-        magicList: []
-      }
+      nowShip: props.nowShip
     }
   }
-
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      nowShip: nextProps.nowShip
+    })
+  }
   FieldGroup({ id, label, help, ...props }) {
   	return (
   		<FormGroup controlId={id}>
@@ -32,7 +34,7 @@ class Magic extends PureComponent {
   select_ship(e) {
     if (e.target.value)
       this.setState({
-        selectedShip: this.props.magicShipList[e.target.value]
+        nowShip: this.props.magicShipList[e.target.value]
       });
   }
   select_magic(e) {
@@ -40,9 +42,9 @@ class Magic extends PureComponent {
       this.props.actions.change_magic(e.target.value);
   }
   render() {
-    const { magicShipList } = this.props;
-    const { selectedShip } = this.state;
-    console.log(selectedShip);
+    const { magicShipList, nowMagic } = this.props;
+    const { nowShip } = this.state;
+    console.log(this.props);
     return (
       <div>
       <Form inline>
@@ -53,7 +55,7 @@ class Magic extends PureComponent {
             componentClass: "select",
             bsSize: 'small',
             placeholder: "请选择舰娘",
-            value: undefined,
+            value: nowShip.id,
             style: {
               width: 200,
               fontSize: 16
@@ -79,9 +81,10 @@ class Magic extends PureComponent {
             style: {
               width: 200,
             },
+            value: nowMagic.id,
             onChange: this.select_magic.bind(this),
             children: [<option key="1">请选择</option>]
-            .concat(selectedShip.magicList.map(magic =>
+            .concat(nowShip.magicList.map(magic =>
               <option key={magic.id} value={magic.id}>{magic.name}</option>
             ))
           })
@@ -95,9 +98,10 @@ class Magic extends PureComponent {
 export default connect(
   state => ({
     magicShipList: shipListWithMagicData(state),
-    nowMagicData: nowMagicData(state),
+    nowShip: nowShipByNowMagic(state),
+    nowMagic: nowMagicData(state)
   }),
   dispatch => ({
     actions: bindActionCreators(actions, dispatch)
   })
-)(Magic);
+)(SelectMagic);

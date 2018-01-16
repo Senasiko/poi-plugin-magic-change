@@ -9,10 +9,7 @@ export default (state=initalState, action) => {
       newState = { ...initalState, ...action.data };
       break;
     case types.change_magic:
-      newState.nowMagic = {
-        ...action.magic,
-        imgs: action.imgs || []
-      };
+      newState.nowMagicId = action.magicId;
       break;
     case types.change_shimakazeGoPath:
       newState.shimakazeGoPath = action.path || '';

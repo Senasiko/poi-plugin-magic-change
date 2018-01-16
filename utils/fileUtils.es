@@ -11,7 +11,6 @@ import {
   dataFile,
   swfImgJson,
 } from '../config.es';
-import { store } from 'views/create-store.es';
 
 
 
@@ -103,11 +102,12 @@ export const get_swf_img_base64 = memoize(async (filePath) => {
       imgDatas = await read_swf_file(filePath);
       imgDatas = imgDatas.map(img => `data:image/${img.imgType};base64,${img.imgData.toString('base64')}`);
       fs.writeJsonSync(imgFile, imgDatas);
-    } 
-    return imgDatas;
+    }
+    return imgDatas || [];
   } catch (e) {
     console.error(e)
     toast('请检查文件完整性')
+    return [];
   }
 
 });

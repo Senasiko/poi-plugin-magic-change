@@ -17,6 +17,6 @@ export const shipModel = {
 export default {
   shipList: {},
   magicList: {},
-  nowMagic: {},
+  nowMagicId: '',
   shimakazeGoPath: '',
 };
