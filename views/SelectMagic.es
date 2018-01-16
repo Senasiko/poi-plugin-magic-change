@@ -34,7 +34,7 @@ class SelectMagic extends PureComponent {
   select_ship(e) {
     if (e.target.value)
       this.setState({
-        nowShip: this.props.magicShipList[e.target.value]
+        nowShip: this.props.magicShipList[e.target.value] || {}
       });
   }
   select_magic(e) {

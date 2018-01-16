@@ -68,6 +68,7 @@ const upload_magicChange = files => async (dispatch, getState) => {
   let magicId = Math.random().toString(36).substr(2);
   try{
     for (let file of files) {
+      console.log('file', file);
       await set_magicChange_file(file, magicId);
     }
     let fileName = files[0].name.split('.')[0];
@@ -93,8 +94,6 @@ const upload_magicChange = files => async (dispatch, getState) => {
   }catch(e) {
     toast('文件格式不正确', { type: 'error' });
   }
-
-
 }
 
 export default {

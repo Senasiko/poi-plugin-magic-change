@@ -11,12 +11,7 @@ import {
   dataFile,
   swfImgJson,
 } from '../config.es';
-
-
-
-export const change_swf = () => {
-  const filePath = path.join(__dirname, 'data')
-}
+import { getShimakazeGoShipResPath } from './pathUtils.es';
 
 export const read_data_file = () => {
   let data;
@@ -48,16 +43,13 @@ export const read_shimakazeGoData = async (shimakazeGoRoot) => {
   return null;
 };
 
-export const set_magicChange_file = (async (file, magicChangeId) => {
+export const set_magicChange_file = async (file, magicChangeId) => {
   try {
     fs.ensureDirSync(magicChangeDir);
-    let fileDir = await fs.ensureDir(path.join(magicChangeDir, magicChangeId));
-    switch (file.type) {
-      case 'application/x-shockwave-flash':
-        fs.ensureDirSync(fileDir);
-        fs.copySync(file.path, path.join(fileDir, file.name));
-        break;
-      case '':
+    let fileDir = fs.ensureDirSync(path.join(magicChangeDir, magicChangeId));
+    let fileType = file.name.split('.')[file.name.split('.').length - 1];
+    switch (fileType) {
+      case 'zip':
         fs.ensureDirSync(tempDir);
         fs.copySync(file.path, tempDir);
         // fs.createReadStream('path/to/archive.zip')
@@ -70,19 +62,57 @@ export const set_magicChange_file = (async (file, magicChangeId) => {
         //     entry.pipe(fs.createWriteStream('output/path'));
         //   } else {
         //     entry.autodrain();
+
         //   }
           // });
         break;
-      default:break;
-
+      default:
+      // ini file error
+        fs.copySync(file.path, path.join(fileDir, file.name));
+        break;
     }
   } catch (e) {
-    toast(e, { type: 'error' });
+    console.error(e);
     throw e;
-  } finally {
-
   }
-})
+};
+
+export const importFromShimakaze = shimakazeGoPath => {
+  console.log(shimakazeGoPath);
+  if (!shimakazeGoPath) {
+    toast('请初始化岛风Go路径');
+    return
+  }
+  try {
+    let shipPath = getShimakazeGoShipResPath(shimakazeGoPath);
+    let magicChangeList = [];
+    let files = fs.readdirSync(shipPath);
+    let hackFiles = files.filter(file => file.split('.')[1] === 'hack' && file.split('.')[2] === 'swf');
+    for (let file of hackFiles) {
+      let fileName = file.split('.')[0];
+      let fileFile = {
+        name: file,
+        path: path.join(shipPath, file),
+      };
+      let iniFileName = `${fileName}.config.ini`;
+      let magicChange = files.includes(iniFileName)?
+        [
+          fileFile,
+          {
+            name: iniFileName,
+            path: path.join(shipPath, iniFileName)
+          }
+        ]:
+        [fileFile];
+      magicChangeList.push(magicChange);
+    }
+    return magicChangeList;
+  } catch (e) {
+    console.log(e);
+    toast('请确认岛风Go路径是否正确')
+  }
+
+};
 
 export const read_swf_file = async (filePath) => {
   const rawData = fs.readFileSync(filePath);
@@ -109,7 +139,6 @@ export const get_swf_img_base64 = memoize(async (filePath) => {
     toast('请检查文件完整性')
     return [];
   }
-
 });
 
 const getRandomStr = () => Math.random().toString(36).substr(2);

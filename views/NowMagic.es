@@ -24,13 +24,16 @@ class NowMagic extends React.PureComponent {
   }
   componentWillReceiveProps(nextProps) {
     const { nowMagic } = nextProps;
-    this.setState({
-      magicName: nowMagic.name,
-      magicDescription: nowMagic.description,
-    });
-    get_swf_img_base64(getMagicChangeFilePath(nowMagic)).then(imgs => {
-      this.setState({ imgs })
-    })
+    if (Object.keys(nowMagic).length > 0) {
+      this.setState({
+        magicName: nowMagic.name || '',
+        magicDescription: nowMagic.description || '',
+      });
+      get_swf_img_base64(getMagicChangeFilePath(nowMagic)).then(imgs => {
+        this.setState({ imgs })
+      })
+    }
+
   }
   FieldGroup({ id, label, help, ...props }) {
   	return (
