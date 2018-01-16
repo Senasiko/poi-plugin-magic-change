@@ -93,17 +93,23 @@ export const read_swf_file = async (filePath) => {
 };
 
 export const get_swf_img_base64 = memoize(async (filePath) => {
-  let imgFile = path.join(dir, swfImgJson);
-  let dir = path.dirname(filePath);
-  let imgDatas;
   try {
-    imgDatas = fs.readJsonSync(imgFile);
-  }catch (e) {
-    imgDatas = await read_swf_file(filePath)
-      .imgDatas.map(img => `data:image/${img.imgType};base64,${img.imgData.toString('base64')}`);
-    fs.writeJsonSync(imgFile, imgDatas);
+    let dir = path.dirname(filePath);
+    let imgFile = path.join(dir, swfImgJson);
+    let imgDatas;
+    try {
+      imgDatas = fs.readJsonSync(imgFile);
+    }catch (e) {
+      imgDatas = await read_swf_file(filePath);
+      imgDatas = imgDatas.map(img => `data:image/${img.imgType};base64,${img.imgData.toString('base64')}`);
+      fs.writeJsonSync(imgFile, imgDatas);
+    } 
+    return imgDatas;
+  } catch (e) {
+    console.error(e)
+    toast('请检查文件完整性')
   }
-  return imgDatas;
+
 });
 
 const getRandomStr = () => Math.random().toString(36).substr(2);

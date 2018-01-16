@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../store/actions.es';
-import styles from '../css.es';
+import * as styles from '../css.es';
 
 class Upload extends React.PureComponent {
   constructor(props) {

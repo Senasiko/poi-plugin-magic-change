@@ -3,7 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 import actions from '../store/actions.es';
-import { shipListWithMagicData } from '../store/selectors.es';
+import {
+  shipListWithMagicData,
+  nowMagicData
+ } from '../store/selectors.es';
 import styles from '../css.es';
 
 class Magic extends PureComponent {
@@ -11,6 +14,7 @@ class Magic extends PureComponent {
     super(props);
     this.state = {
       selectedShip: {
+        name: '',
         magicList: []
       }
     }
@@ -26,14 +30,19 @@ class Magic extends PureComponent {
   	);
   }
   select_ship(e) {
-    this.setState({
-      selectedShip: this.props.magicShipList[e.target.value]
-    })
+    if (e.target.value)
+      this.setState({
+        selectedShip: this.props.magicShipList[e.target.value]
+      });
+  }
+  select_magic(e) {
+    if (e.target.value)
+      this.props.actions.change_magic(e.target.value);
   }
   render() {
     const { magicShipList } = this.props;
     const { selectedShip } = this.state;
-    console.log(magicShipList);
+    console.log(selectedShip);
     return (
       <div>
       <Form inline>
@@ -44,13 +53,20 @@ class Magic extends PureComponent {
             componentClass: "select",
             bsSize: 'small',
             placeholder: "请选择舰娘",
+            value: undefined,
             style: {
               width: 200,
+              fontSize: 16
             },
             onChange: this.select_ship.bind(this),
-            children: Object.values(magicShipList).map(ship =>
-              <option key={ship.id} value={ship.id}>{ship.name}</option>
-            )
+            children: [<option key="1">请选择</option>]
+            .concat(Object.values(magicShipList).map(ship =>
+              <option
+                key={ship.id}
+                value={ship.id}
+                style={{ fontSize: 16 }}
+              >{ship.name}</option>
+            ))
           })
         }
         {
@@ -63,9 +79,11 @@ class Magic extends PureComponent {
             style: {
               width: 200,
             },
-            children: selectedShip.magicList.map(magic =>
+            onChange: this.select_magic.bind(this),
+            children: [<option key="1">请选择</option>]
+            .concat(selectedShip.magicList.map(magic =>
               <option key={magic.id} value={magic.id}>{magic.name}</option>
-            )
+            ))
           })
         }
       </Form>
@@ -77,6 +95,7 @@ class Magic extends PureComponent {
 export default connect(
   state => ({
     magicShipList: shipListWithMagicData(state),
+    nowMagicData: nowMagicData(state),
   }),
   dispatch => ({
     actions: bindActionCreators(actions, dispatch)

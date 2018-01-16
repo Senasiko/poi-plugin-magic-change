@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { cloneDeepWith } from 'lodash';
 import memoize from 'fast-memoize';
 import {
   extensionSelectorFactory,
@@ -26,6 +27,11 @@ export const magicShipList = createSelector(
 export const magicList = createSelector(
   [pluginData],
   state => state.magicList || {}
+);
+
+export const nowMagicData = createSelector(
+  [pluginData],
+  state => state.nowMagic
 );
 
 export const magicShipDataFactory = shipId => createSelector(
@@ -69,11 +75,11 @@ export const shipMagicListFactory = shipId => createSelector(
 export const shipListWithMagicData = createSelector(
     [magicShipList, magicList],
     (shipList, magicList) => {
-      for (let ship of Object.values(shipList)){
-        debugger
+      let mShipList = cloneDeepWith(shipList);
+      for (let ship of Object.values(mShipList)){
         ship.magicList = ship.magicList.map(magicId => magicList[magicId]);
       }
-      return shipList;
+      return mShipList;
     }
 );
 

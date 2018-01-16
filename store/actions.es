@@ -7,6 +7,7 @@ import {
   magicShipDataFactory,
   shipBaseDataFactory,
   magicDataFactory,
+  nowMagicData,
 } from './selectors.es';
 import {
   read_data_file,
@@ -26,20 +27,19 @@ const init_ship = () => {
   };
 };
 
-const change_ship = shipId => ({
-  type: types.change_ship,
-  shipId
-});
-
 const change_magic = magicId => async (dispatch, getState) => {
   // if magic's image message is not exist, judge the image.json exist? if not, read swf.
   let magic = magicDataFactory(magicId)(getState());
   let imgs = magic.imgs || [];
   if (imgs.length === 0) {
     // need shipId, change get_swf_img_base64 function, add error handler when file is not exist
-    let data = get_swf_img_base64(path.join(magicChangeDir, magicId, mgicId + '.hack.swf'));
-
+    imgs = await get_swf_img_base64(path.join(magicChangeDir, magicId, magic.fileName + '.hack.swf'));
   }
+  dispatch({
+    type: types.change_magic,
+    magic,
+    imgs,
+  })
 };
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {
@@ -49,6 +49,16 @@ const change_shimakazeGoPath = path => async (dispatch, getState) => {
   });
 };
 
+const change_magicData = (newValue, magicId) => (dispatch, getState) => {
+  if (!magicId) {
+    magicId = nowMagicData(getState()).id
+  }
+  dispatch({
+    type: types.change_magicData,
+    magicId,
+    newValue
+  })
+}
 
 const upload_magicChange = files => async (dispatch, getState) => {
   let magicId = Math.random().toString(36).substr(2);
@@ -85,7 +95,8 @@ const upload_magicChange = files => async (dispatch, getState) => {
 
 export default {
   init_ship,
-  change_ship,
+  change_magic,
   change_shimakazeGoPath,
   upload_magicChange,
+  change_magicData,
 }

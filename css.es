@@ -8,12 +8,20 @@ export const carousel = {
 export const carouselItem = {
   height: carousel.height,
   lineHeight: `${carousel.height}px`,
-}
+};
 
-export const shipImg = {
+export const magicImg = {
   maxHeight: carousel.height,
   display: 'inline-block'
-}
+};
+
+export const magicForm = {
+  display: 'inline-block',
+  width: '50%',
+  padding: '10px',
+  boxSize: 'border-box',
+  verticalAlign: 'top',
+};
 
 export const uploadContainer = {
   width: '100%',
@@ -21,12 +29,4 @@ export const uploadContainer = {
   textAlign: 'center',
   lineHeight: '100%',
   color: 'rgb(166, 166, 166)'
-}
-
-
-export default {
-  carousel,
-  carouselItem,
-  shipImg,
-  uploadContainer,
-}
+};

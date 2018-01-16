@@ -8,12 +8,22 @@ export default (state=initalState, action) => {
     case types.init_ship:
       newState = { ...initalState, ...action.data };
       break;
-    case types.change_ship:
-      newState.nowShip = { ...cloneDeepWith(initalState.nowShip), ...action.newShip };
+    case types.change_magic:
+      newState.nowMagic = {
+        ...action.magic,
+        imgs: action.imgs || []
+      };
       break;
     case types.change_shimakazeGoPath:
       newState.shimakazeGoPath = action.path || '';
       newState.shimakazeGoData = action.shimakazeGoData || {};
+      break;
+    case types.change_magicData:
+      newState.magicList[action.magicId] = {
+        ...newState.magicList[action.magicId],
+        ...action.newValue,
+      };
+      updateState(newState, ['magicList'])
       break;
     case types.new_magicChange:
       newState.magicList[action.magic.id] = {
@@ -31,7 +41,6 @@ export default (state=initalState, action) => {
       updateState(newState, ['shipList', 'magicList'])
       break;
     default: return state;
-
   }
   return newState;
 };
