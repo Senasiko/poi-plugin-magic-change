@@ -15,6 +15,8 @@ import {
   get_swf_img_base64,
   set_magicChange_file,
   read_shimakazeGoData,
+  delete_magicFile,
+  use_magicFile,
 } from '../utils/fileUtils.es';
 
 const init_ship = () => {
@@ -31,22 +33,9 @@ const change_magic = magicId => ({
   type: types.change_magic,
   magicId
 })
-// async (dispatch, getState) => {
-//   // if magic's image message is not exist, judge the image.json exist? if not, read swf.
-//   let magic = magicDataFactory(magicId)(getState());
-//   let imgs = magic.imgs || [];
-//   if (imgs.length === 0) {
-//     // need shipId, change get_swf_img_base64 function, add error handler when file is not exist
-//     imgs = await get_swf_img_base64(path.join(magicChangeDir, magicId, magic.fileName + '.hack.swf'));
-//   }
-//   dispatch({
-//     type: types.change_magic,
-//     magic,
-//     imgs,
-//   })
-// };
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {
+  // when change path, need check is exist?
   dispatch({
     type: types.change_shimakazeGoPath,
     path,
@@ -62,17 +51,47 @@ const change_magicData = (newValue, magicId) => (dispatch, getState) => {
     magicId,
     newValue
   })
-}
+};
+
+const delete_nowMagic = () => async (dispatch, getState) => {
+  try {
+    let nowMagic = nowMagicData(getState());
+    // toggleModal('提示', `确定删除 ${nowMagic.name} 吗？`, {
+    //   name: '确定',
+    //   style: 'danger',
+    //   func: async () => {
+    //     await delete_magicFile(nowMagic.id);
+    //     dispatch({
+    //       type: types.delete_nowMagic,
+    //     })
+    //     success(`删除 ${nowMagic.name} 成功`)
+    //   }
+    // });
+    await delete_magicFile(nowMagic.id, shimakazeGoPath(getState()));
+    dispatch({
+      type: types.delete_nowMagic,
+    })
+    success(`删除 ${nowMagic.name} 成功`)
+  } catch (e) {
+  }
+};
 
 const upload_magicChange = files => async (dispatch, getState) => {
   let magicId = Math.random().toString(36).substr(2);
   try{
+    let mainFile;
     for (let file of files) {
-      await set_magicChange_file(file, magicId);
+      file.name.match(/\.hack\.swf$/g) && (mainFile = file);
     }
-    let fileName = files[0].name.split('.')[0];
+    if (!mainFile) {
+      throw '';
+    }
+    let fileName = mainFile.name.split('.')[0];
     let ship = shipIdByFileName(fileName)(getState());
-    if (ship) {
+    if (Object.keys(ship).length > 0) {
+      for (let file of files) {
+        await set_magicChange_file(file, magicId);
+      }
       ship = {
         ...ship,
         ...shipBaseDataFactory(ship.api_id)(getState()),
@@ -86,11 +105,12 @@ const upload_magicChange = files => async (dispatch, getState) => {
           name: ship.api_name
         }
       });
+      success(`${ship.api_name}魔改添加成功`);
     }else {
-      toast('找不到对应文件名的舰娘 id，请检查文件名');
+      warn('找不到对应文件名的舰娘 id，请检查文件名');
     }
   }catch(e) {
-    toast('文件格式不正确', { type: 'error' });
+    warn('文件格式不正确');
   }
 }
 
@@ -100,4 +120,5 @@ export default {
   change_shimakazeGoPath,
   upload_magicChange,
   change_magicData,
+  delete_nowMagic,
 }

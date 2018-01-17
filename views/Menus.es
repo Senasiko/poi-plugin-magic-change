@@ -20,7 +20,7 @@ class Menus extends React.PureComponent {
           key: 1
         },
         {
-          label: '导入魔改',
+          label: '添加魔改',
           key: 2,
           component: <Upload/>,
         },
@@ -43,12 +43,16 @@ class Menus extends React.PureComponent {
   importFromShimakaze() {
     const { shimakazeGoPath } = this.props;
     const { upload_magicChange } = this.props.actions;
-    let magicChangeFileList = importFromShimakaze(shimakazeGoPath);
-    if (magicChangeFileList && magicChangeFileList.length > 0) {
-      for (let magicChangeFile of magicChangeFileList) {
-        upload_magicChange(magicChangeFile);
+    try {
+      let magicChangeFileList = importFromShimakaze(shimakazeGoPath);
+      if (magicChangeFileList && magicChangeFileList.length > 0) {
+        for (let magicChangeFile of magicChangeFileList) {
+          upload_magicChange(magicChangeFile);
+        }
       }
+    } catch (e) {
     }
+
   }
   changeMenu(nowMenu) {
     this.setState({

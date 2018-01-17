@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import PropsTypes from 'prop-types';
 import path from 'path';
 import { Carousel, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
-import { nowMagicData } from '../store/selectors.es';
+import { nowMagicData, shimakazeGoPath } from '../store/selectors.es';
 import actions from '../store/actions.es';
 import * as styles from '../css.es';
-import { get_swf_img_base64 } from '../utils/fileUtils.es';
+import { get_swf_img_base64, use_magicFile } from '../utils/fileUtils.es';
 import { getMagicChangeFilePath } from '../utils/pathUtils.es';
 
 class NowMagic extends React.PureComponent {
@@ -22,18 +22,21 @@ class NowMagic extends React.PureComponent {
       imgs: []
     }
   }
-  componentWillReceiveProps(nextProps) {
-    const { nowMagic } = nextProps;
-    if (Object.keys(nowMagic).length > 0) {
-      this.setState({
-        magicName: nowMagic.name || '',
-        magicDescription: nowMagic.description || '',
-      });
-      get_swf_img_base64(getMagicChangeFilePath(nowMagic)).then(imgs => {
-        this.setState({ imgs })
-      })
-    }
 
+  componentWillReceiveProps(nextProps) {
+    try {
+      const { nowMagic } = nextProps;
+      if (Object.keys(nowMagic).length > 0) {
+        this.setState({
+          magicName: nowMagic.name || '',
+          magicDescription: nowMagic.description || '',
+        });
+        get_swf_img_base64(getMagicChangeFilePath(nowMagic)).then(imgs => {
+          this.setState({ imgs })
+        })
+      }
+    } catch (e) {
+    }
   }
   FieldGroup({ id, label, help, ...props }) {
   	return (
@@ -44,9 +47,20 @@ class NowMagic extends React.PureComponent {
   		</FormGroup>
   	);
   }
+  use_magic() {
+    try {
+      const { nowMagic, shimakazeGoPath } = this.props;
+      use_magicFile(nowMagic.id, shimakazeGoPath).then(() => {
+        success(`应用 ${nowMagic.name} 成功`);        
+      })
+    } catch (e) {
+
+    }
+
+  }
   render() {
     const { nowMagic } = this.props;
-    const { change_magicData } = this.props.actions;
+    const { change_magicData, delete_nowMagic } = this.props.actions;
     const { magicName, magicDescription, imgs } = this.state;
     return (
       <div>
@@ -85,10 +99,20 @@ class NowMagic extends React.PureComponent {
             })
           }
           <Button
-          bsStyle="primary"
-          bsSize="small"
-          onClick={() => change_magicData({ name: magicName, description: magicDescription })}
+            bsStyle="primary"
+            bsSize="small"
+            onClick={() => change_magicData({ name: magicName, description: magicDescription })}
           >保存</Button>
+          <Button
+            bsStyle="success"
+            bsSize="small"
+            onClick={this.use_magic.bind(this)}
+          >应用</Button>
+          <Button
+            bsStyle="danger"
+            bsSize="small"
+            onClick={() => delete_nowMagic()}
+          >删除</Button>
         </Form>
       </div>
     );
@@ -97,7 +121,8 @@ class NowMagic extends React.PureComponent {
 
 export default connect(
   state => ({
-    nowMagic: nowMagicData(state)
+    nowMagic: nowMagicData(state),
+    shimakazeGoPath: shimakazeGoPath(state)
   }),
   dispatch => ({
     actions: bindActionCreators(actions, dispatch)

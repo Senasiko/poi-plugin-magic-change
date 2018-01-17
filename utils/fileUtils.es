@@ -11,7 +11,7 @@ import {
   dataFile,
   swfImgJson,
 } from '../config.es';
-import { getShimakazeGoShipResPath } from './pathUtils.es';
+import { getShimakazeGoShipResPath, getMagicDir } from './pathUtils.es';
 
 export const read_data_file = () => {
   let data;
@@ -46,26 +46,13 @@ export const read_shimakazeGoData = async (shimakazeGoRoot) => {
 export const set_magicChange_file = async (file, magicChangeId) => {
   try {
     fs.ensureDirSync(magicChangeDir);
-    let fileDir = path.join(magicChangeDir, magicChangeId);
+    let fileDir = getMagicDir(magicChangeId);
     fs.ensureDirSync(fileDir);
     let fileType = file.name.split('.')[file.name.split('.').length - 1];
     switch (fileType) {
       case 'zip':
         fs.ensureDirSync(tempDir);
         fs.copySync(file.path, tempDir);
-        // fs.createReadStream('path/to/archive.zip')
-        // .pipe(unzip.Parse())
-        // .on('entry', function (entry) {
-        //   var fileName = entry.path;
-        //   var type = entry.type; // 'Directory' or 'File'
-        //   var size = entry.size;
-        //   if (fileName === "this IS the file I'm looking for") {
-        //     entry.pipe(fs.createWriteStream('output/path'));
-        //   } else {
-        //     entry.autodrain();
-
-        //   }
-          // });
         break;
       default:
         let destPath = path.join(fileDir, file.name);
@@ -80,12 +67,11 @@ export const set_magicChange_file = async (file, magicChangeId) => {
 };
 
 export const importFromShimakaze = shimakazeGoPath => {
-  console.log(shimakazeGoPath);
-  if (!shimakazeGoPath) {
-    toast('请初始化岛风Go路径');
-    return
-  }
+
   try {
+    if (!shimakazeGoPath) {
+      throw '';
+    }
     let shipPath = getShimakazeGoShipResPath(shimakazeGoPath);
     let magicChangeList = [];
     let files = fs.readdirSync(shipPath);
@@ -110,10 +96,41 @@ export const importFromShimakaze = shimakazeGoPath => {
     }
     return magicChangeList;
   } catch (e) {
-    console.log(e);
-    toast('请确认岛风Go路径是否正确')
+    warn('请确认岛风Go路径是否正确');
+    throw e;
   }
+};
 
+export const use_magicFile = async (magicId, shimakazeGoRoot, isDelete) => {
+  try {
+    if (!shimakazeGoRoot) {
+      throw '';
+    }
+    let resDir = getShimakazeGoShipResPath(shimakazeGoRoot);
+    let fileDir = getMagicDir(magicId);
+    fs.ensureDirSync(fileDir);
+    let files = fs.readdirSync(fileDir);
+    for (let file of files) {
+      isDelete?
+      fs.removeSync(path.join(resDir, file)):
+      fs.copySync(path.join(fileDir, file), path.join(resDir, file));
+    }
+  } catch (e) {
+    error(`${isDelete?'删除':'应用'}魔改失败, 请确认岛风Go路径是否正确`);
+    throw e;
+  }
+};
+
+export const delete_magicFile = async (magicId, shimakazeGoRoot) => {
+  try {
+    await use_magicFile(magicId, shimakazeGoRoot, true);
+    let fileDir = getMagicDir(magicId);
+    fs.ensureDirSync(fileDir);
+    fs.removeSync(fileDir);
+  } catch (e) {
+    error('删除魔改失败');
+    throw e;
+  }
 };
 
 export const read_swf_file = async (filePath) => {
@@ -138,7 +155,7 @@ export const get_swf_img_base64 = memoize(async (filePath) => {
     return imgDatas || [];
   } catch (e) {
     console.error(e)
-    toast('请检查文件完整性')
+    warn('请检查文件完整性')
     return [];
   }
 });

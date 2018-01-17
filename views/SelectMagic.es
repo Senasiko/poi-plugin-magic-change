@@ -61,7 +61,7 @@ class SelectMagic extends PureComponent {
               fontSize: 16
             },
             onChange: this.select_ship.bind(this),
-            children: [<option key="1">请选择</option>]
+            children: [<option key="1" value={''}>请选择</option>]
             .concat(Object.values(magicShipList).map(ship =>
               <option
                 key={ship.id}
@@ -83,7 +83,7 @@ class SelectMagic extends PureComponent {
             },
             value: nowMagic.id,
             onChange: this.select_magic.bind(this),
-            children: [<option key="1">请选择</option>]
+            children: [<option key="1" value={''}>请选择</option>]
             .concat(nowShip.magicList.map(magic =>
               <option key={magic.id} value={magic.id}>{magic.name}</option>
             ))
