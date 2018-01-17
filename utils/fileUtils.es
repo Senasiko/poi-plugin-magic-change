@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path-extra');
 const fs = require('fs-extra');
 const upzip = require('node-unzip-2');
 const {readFromBufferP, extractImages} = require('swf-extract');
@@ -46,7 +46,8 @@ export const read_shimakazeGoData = async (shimakazeGoRoot) => {
 export const set_magicChange_file = async (file, magicChangeId) => {
   try {
     fs.ensureDirSync(magicChangeDir);
-    let fileDir = fs.ensureDirSync(path.join(magicChangeDir, magicChangeId));
+    let fileDir = path.join(magicChangeDir, magicChangeId);
+    fs.ensureDirSync(fileDir);
     let fileType = file.name.split('.')[file.name.split('.').length - 1];
     switch (fileType) {
       case 'zip':
@@ -67,14 +68,15 @@ export const set_magicChange_file = async (file, magicChangeId) => {
           // });
         break;
       default:
-      // ini file error
-        fs.copySync(file.path, path.join(fileDir, file.name));
+        let destPath = path.join(fileDir, file.name);
+        fs.copySync(file.path, destPath);
         break;
     }
   } catch (e) {
     console.error(e);
     throw e;
   }
+  return true;
 };
 
 export const importFromShimakaze = shimakazeGoPath => {

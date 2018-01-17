@@ -46,7 +46,7 @@ class Menus extends React.PureComponent {
     let magicChangeFileList = importFromShimakaze(shimakazeGoPath);
     if (magicChangeFileList && magicChangeFileList.length > 0) {
       for (let magicChangeFile of magicChangeFileList) {
-        upload_magicChange(magicChangeFile)
+        upload_magicChange(magicChangeFile);
       }
     }
   }

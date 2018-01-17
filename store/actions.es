@@ -68,7 +68,6 @@ const upload_magicChange = files => async (dispatch, getState) => {
   let magicId = Math.random().toString(36).substr(2);
   try{
     for (let file of files) {
-      console.log('file', file);
       await set_magicChange_file(file, magicId);
     }
     let fileName = files[0].name.split('.')[0];
@@ -78,7 +77,6 @@ const upload_magicChange = files => async (dispatch, getState) => {
         ...ship,
         ...shipBaseDataFactory(ship.api_id)(getState()),
       }
-      console.log('ship', magicShipDataFactory(ship.api_id)(getState()));
       dispatch({
         type: types.new_magicChange,
         magic: { id: magicId, fileName },
