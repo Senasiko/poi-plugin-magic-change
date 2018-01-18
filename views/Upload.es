@@ -30,7 +30,7 @@ class Upload extends React.PureComponent {
           onDrop={this.onDrop.bind(this)}
           onDragOver={this.onDragOver.bind(this)}
         >
-          将swf文件拖到此处
+          将 *.hack.swf 文件和 *.config.ini 文件拖到此处
         </div>
       </div>
 

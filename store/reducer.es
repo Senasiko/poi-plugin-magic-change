@@ -1,4 +1,4 @@
-import { cloneDeepWith, clone, remove } from 'lodash';
+import { cloneDeepWith, clone, remove, unset } from 'lodash';
 import initalState, { magicModel, shipModel } from './state.es';
 import types from './types.es';
 
@@ -23,8 +23,12 @@ export default (state=initalState, action) => {
       updateState(newState, ['magicList']);
       break;
     case types.delete_nowMagic:
-      for (let ship of Object.values(newState.shipList)) {
+      for (let shipId in newState.shipList) {
+        let ship = newState.shipList[shipId];
         remove(ship.magicList, magicId => magicId === newState.nowMagicId);
+        if (ship.magicList.length === 0) {
+          unset(newState.shipList, shipId);
+        }
       }
       remove(newState.magicList, magic => magic.id === newState.nowMagicId);
       newState.nowMagicId = '';

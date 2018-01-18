@@ -18,7 +18,6 @@ class Setting extends React.PureComponent {
     const { change_shimakazeGoPath } = this.props.actions;
     return (
       <div>
-        <ControlLabel>岛风GO目录</ControlLabel>
         <FormControl
           componentClass="input"
           placeholder="岛风GO路径"

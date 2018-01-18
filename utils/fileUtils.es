@@ -27,7 +27,7 @@ export const read_data_file = () => {
 export const read_shimakazeGoData = async shimakazeGoRoot => {
   try {
     if (shimakazeGoRoot) {
-      const dataDir = path.join(shimakazeGoRoot, 'cache', 'kcs', 'resources', 'swf');
+      const dataDir = getShimakazeGoShipResPath(shimakazeGoRoot);
       return fs.existsSync(dataDir)
     } else {
       toast('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
