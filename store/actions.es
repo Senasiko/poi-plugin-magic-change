@@ -35,11 +35,15 @@ const change_magic = magicId => ({
 })
 
 const change_shimakazeGoPath = path => async (dispatch, getState) => {
-  // when change path, need check is exist?
-  dispatch({
-    type: types.change_shimakazeGoPath,
-    path,
-  });
+    if (await read_shimakazeGoData(path)) {
+      dispatch({
+        type: types.change_shimakazeGoPath,
+        path,
+      });
+    }else {
+      warn('输入的路径有误');
+    }
+
 };
 
 const change_magicData = (newValue, magicId) => (dispatch, getState) => {
@@ -105,7 +109,7 @@ const upload_magicChange = files => async (dispatch, getState) => {
           name: ship.api_name
         }
       });
-      success(`${ship.api_name}魔改添加成功`);
+      toast(`${ship.api_name}魔改添加成功`, { type: 'success' });
     }else {
       warn('找不到对应文件名的舰娘 id，请检查文件名');
     }

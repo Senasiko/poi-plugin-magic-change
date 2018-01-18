@@ -24,16 +24,11 @@ export const read_data_file = () => {
   return data || {};
 };
 
-export const read_shimakazeGoData = async (shimakazeGoRoot) => {
+export const read_shimakazeGoData = async shimakazeGoRoot => {
   try {
     if (shimakazeGoRoot) {
-      const dataDir = path.join(shimakazeGoRoot, 'data', 'KanColle');
-      let shipData = await fs.readJsonSync(path.join(dataDir, 'picture_book.json'));
-      let resData = await fs.readJsonSync(path.join(dataDir, 'static_res.json'));
-      return {
-        shipData,
-        resData
-      };
+      const dataDir = path.join(shimakazeGoRoot, 'cache', 'kcs', 'resources', 'swf');
+      return fs.existsSync(dataDir)
     } else {
       toast('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
     }
