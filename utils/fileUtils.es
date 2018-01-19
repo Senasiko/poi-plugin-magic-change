@@ -30,10 +30,10 @@ export const read_shimakazeGoData = async shimakazeGoRoot => {
       const dataDir = path.join(shimakazeGoRoot, 'cache', 'kcs', 'resources', 'swf');
       return fs.existsSync(dataDir)
     } else {
-      toast('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
+      warning('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });
     }
   } catch (e) {
-    toast(e, { type: 'error' });
+    warning(e, { type: 'error' });
   }
   return null;
 };
