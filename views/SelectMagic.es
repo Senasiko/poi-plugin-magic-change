@@ -44,7 +44,6 @@ class SelectMagic extends PureComponent {
   render() {
     const { magicShipList, nowMagic } = this.props;
     const { nowShip } = this.state;
-    console.log(this.props);
     return (
       <div>
       <Form inline>
