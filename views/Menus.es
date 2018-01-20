@@ -51,7 +51,7 @@ class Menus extends React.PureComponent {
         for (let magicChangeFile of magicChangeFileList) {
           upload_magicChange(magicChangeFile);
         }
-      }else if () {
+      }else {
         info('没有找到魔改')
       }
     } catch (e) {

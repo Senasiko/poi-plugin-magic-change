@@ -40,6 +40,7 @@ const change_shimakazeGoPath = path => async (dispatch, getState) => {
         type: types.change_shimakazeGoPath,
         path,
       });
+      success('岛风Go目录保存成功')
     }else {
       warn('输入的路径有误');
     }
