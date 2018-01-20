@@ -2,13 +2,13 @@ import { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import actions from '../store/actions.es';
+import actions from '../store/actions';
 import {
   shipListWithMagicData,
   nowShipByNowMagic,
   nowMagicData,
- } from '../store/selectors.es';
-import styles from '../css.es';
+ } from '../store/selectors';
+import styles from '../css';
 
 class SelectMagic extends PureComponent {
   constructor(props) {

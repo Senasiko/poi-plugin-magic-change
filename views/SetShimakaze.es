@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { shimakazeGoPath } from '../store/selectors.es';
-import actions from '../store/actions.es';
+import { shimakazeGoPath } from '../store/selectors';
+import actions from '../store/actions';
 import { ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
 class Setting extends React.PureComponent {

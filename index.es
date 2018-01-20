@@ -1,6 +1,6 @@
-import reactClass from './component.es';
-import reducer from './store/reducer.es';
-import observes from './store/observers.es';
+import reactClass from './component';
+import reducer from './store/reducer';
+import observes from './store/observers';
 
 function pluginDidLoad() {
 }

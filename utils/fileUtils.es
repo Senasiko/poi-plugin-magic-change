@@ -3,15 +3,15 @@ const fs = require('fs-extra');
 const upzip = require('node-unzip-2');
 const {readFromBufferP, extractImages} = require('swf-extract');
 import memoize from 'fast-memoize';
-import initalState from '../store/state.es';
+import initalState from '../store/state';
 import {
   appDataPath,
   tempDir,
   magicChangeDir,
   dataFile,
   swfImgJson,
-} from '../config.es';
-import { getShimakazeGoShipResPath, getMagicDir } from './pathUtils.es';
+} from '../config';
+import { getShimakazeGoShipResPath, getMagicDir } from './pathUtils';
 
 export const read_data_file = () => {
   let data;

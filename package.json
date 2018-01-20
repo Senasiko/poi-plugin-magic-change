@@ -1,6 +1,6 @@
 {
   "name": "poi-plugin-magic-change",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "description": "ship magic change",
   "apiVer": "8.1.0-beta.2",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "magic",
     "change"
   ],
-  "author": "senasiko",
+  "author": "Senasiko",
   "license": "MIT",
   "poiPlugin": {
     "title": "舰娘魔改",

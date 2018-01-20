@@ -1,6 +1,6 @@
 import { cloneDeepWith, clone, remove, unset } from 'lodash';
-import initalState, { magicModel, shipModel } from './state.es';
-import types from './types.es';
+import initalState, { magicModel, shipModel } from './state';
+import types from './types';
 
 export default (state=initalState, action) => {
   let newState = { ...state };

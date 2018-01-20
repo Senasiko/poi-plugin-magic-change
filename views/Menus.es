@@ -2,13 +2,13 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { importFromShimakaze } from '../utils/fileUtils.es';
+import { importFromShimakaze } from '../utils/fileUtils';
 import { shimakazeGoPath } from '../store/selectors';
-import * as styles from '../css.es';
-import actions from '../store/actions.es';
-import SetShimakaze from './SetShimakaze.es';
-import Upload from './Upload.es';
-import SelectMagic from './SelectMagic.es';
+import * as styles from '../css';
+import actions from '../store/actions';
+import SetShimakaze from './SetShimakaze';
+import Upload from './Upload';
+import SelectMagic from './SelectMagic';
 
 class Menus extends React.PureComponent {
   constructor(props) {

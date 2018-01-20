@@ -1,7 +1,7 @@
 import path from 'path';
 import {
   magicChangeDir,
-} from '../config.es';
+} from '../config';
 
 export const getMagicDir = magicId =>
   path.join(magicChangeDir, magicId)

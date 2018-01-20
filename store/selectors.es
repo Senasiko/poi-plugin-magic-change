@@ -4,8 +4,8 @@ import memoize from 'fast-memoize';
 import {
   extensionSelectorFactory,
   constSelector
- } from 'views/utils/selectors.es';
- import { pluginName } from '../config.es';
+ } from 'views/utils/selectors';
+ import { pluginName } from '../config';
 
  export const pluginData = createSelector(
    [extensionSelectorFactory(pluginName)],

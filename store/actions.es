@@ -1,6 +1,6 @@
 import path from 'path';
-import { magicChangeDir } from '../config.es'
-import types from './types.es';
+import { magicChangeDir } from '../config'
+import types from './types';
 import {
   shimakazeGoPath,
   shipIdByFileName,
@@ -8,7 +8,7 @@ import {
   shipBaseDataFactory,
   magicDataFactory,
   nowMagicData,
-} from './selectors.es';
+} from './selectors';
 import {
   read_data_file,
   read_swf_file,
@@ -17,7 +17,7 @@ import {
   read_shimakazeGoData,
   delete_magicFile,
   use_magicFile,
-} from '../utils/fileUtils.es';
+} from '../utils/fileUtils';
 
 const init_ship = () => {
   return async (dispatch, getState) => {
