@@ -28,6 +28,8 @@ export default (state=initalState, action) => {
         remove(ship.magicList, magicId => magicId === newState.nowMagicId);
         if (ship.magicList.length === 0) {
           unset(newState.shipList, shipId);
+        }else {
+          newState.nowMagicId = ship.magicList[0];
         }
       }
       remove(newState.magicList, magic => magic.id === newState.nowMagicId);

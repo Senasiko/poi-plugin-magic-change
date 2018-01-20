@@ -1,6 +1,5 @@
 const path = require('path-extra');
 const fs = require('fs-extra');
-const upzip = require('node-unzip-2');
 const {readFromBufferP, extractImages} = require('swf-extract');
 import memoize from 'fast-memoize';
 import initalState from '../store/state';

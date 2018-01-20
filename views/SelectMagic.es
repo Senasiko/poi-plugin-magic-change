@@ -44,7 +44,6 @@ class SelectMagic extends PureComponent {
   render() {
     const { magicShipList, nowMagic } = this.props;
     const { nowShip } = this.state;
-    console.log(this.props);
     return (
       <div>
       <Form inline>
@@ -59,7 +58,7 @@ class SelectMagic extends PureComponent {
             style: {
               width: 200,
               fontSize: 16,
-              marginRight: 15 
+              marginRight: 15
             },
             onChange: this.select_ship.bind(this),
             children: [<option key="1" value={''}>请选择</option>]

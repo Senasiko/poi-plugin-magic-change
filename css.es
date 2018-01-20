@@ -44,5 +44,6 @@ export const uploadContainer = {
   height: 50,
   lineHeight: '50px',
   textAlign: 'center',
-  color: 'rgb(166, 166, 166)'
+  color: 'rgb(166, 166, 166)',
+  border: '1px dashed rgb(166,166,166)'
 };

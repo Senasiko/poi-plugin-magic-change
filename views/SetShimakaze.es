@@ -8,7 +8,6 @@ import { ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
 class Setting extends React.PureComponent {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       shimakazeGoPath: props.shimakazeGoPath
     }
