@@ -61,22 +61,19 @@ const change_magicData = (newValue, magicId) => (dispatch, getState) => {
 const delete_nowMagic = () => async (dispatch, getState) => {
   try {
     let nowMagic = nowMagicData(getState());
-    // toggleModal('提示', `确定删除 ${nowMagic.name} 吗？`, {
-    //   name: '确定',
-    //   style: 'danger',
-    //   func: async () => {
-    //     await delete_magicFile(nowMagic.id);
-    //     dispatch({
-    //       type: types.delete_nowMagic,
-    //     })
-    //     success(`删除 ${nowMagic.name} 成功`)
-    //   }
-    // });
-    await delete_magicFile(nowMagic.id, shimakazeGoPath(getState()));
-    dispatch({
-      type: types.delete_nowMagic,
-    })
-    success(`删除 ${nowMagic.name} 成功`)
+    toggleModal('提示', `确定删除 ${nowMagic.name} 吗？`, [
+      {
+        name: '确定',
+        style: 'danger',
+        func: async () => {
+          await delete_magicFile(nowMagic.id, shimakazeGoPath(getState()));
+          dispatch({
+            type: types.delete_nowMagic,
+          })
+          success(`删除 ${nowMagic.name} 成功`)
+        }
+      }
+    ]);
   } catch (e) {
   }
 };
