@@ -1,8 +1,8 @@
 {
   "name": "poi-plugin-magic-change",
-  "version": "0.0.1-beta.1",
-  "description": "ship magic change",
-  "apiVer": "8.1.0-beta.2",
+  "version": "0.0.1",
+  "description": "依赖于岛风Go的舰娘魔改管理工具",
+  "apiVer": "8.1.0-beta.3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
     "magic",
     "change"
   ],
-  "author": "senasiko",
+  "author": "Senasiko",
   "license": "MIT",
   "poiPlugin": {
     "title": "舰娘魔改",

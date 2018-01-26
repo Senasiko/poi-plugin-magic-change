@@ -1,17 +1,16 @@
 const path = require('path-extra');
 const fs = require('fs-extra');
-const upzip = require('node-unzip-2');
 const {readFromBufferP, extractImages} = require('swf-extract');
 import memoize from 'fast-memoize';
-import initalState from '../store/state.es';
+import initalState from '../store/state';
 import {
   appDataPath,
   tempDir,
   magicChangeDir,
   dataFile,
   swfImgJson,
-} from '../config.es';
-import { getShimakazeGoShipResPath, getMagicDir } from './pathUtils.es';
+} from '../config';
+import { getShimakazeGoShipResPath, getMagicDir } from './pathUtils';
 
 export const read_data_file = () => {
   let data;
@@ -27,7 +26,7 @@ export const read_data_file = () => {
 export const read_shimakazeGoData = async shimakazeGoRoot => {
   try {
     if (shimakazeGoRoot) {
-      const dataDir = path.join(shimakazeGoRoot, 'cache', 'kcs', 'resources', 'swf');
+      const dataDir = getShimakazeGoShipResPath(shimakazeGoRoot);
       return fs.existsSync(dataDir)
     } else {
       warning('请初始化岛风GO路径', { type: 'warning', title: '舰娘魔改' });

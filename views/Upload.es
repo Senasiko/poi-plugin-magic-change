@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import actions from '../store/actions.es';
-import * as styles from '../css.es';
+import actions from '../store/actions';
+import * as styles from '../css';
 
 class Upload extends React.PureComponent {
   constructor(props) {
@@ -30,7 +30,7 @@ class Upload extends React.PureComponent {
           onDrop={this.onDrop.bind(this)}
           onDragOver={this.onDragOver.bind(this)}
         >
-          将swf文件拖到此处
+          将 *.hack.swf 文件和 *.config.ini 文件一起拖到此处
         </div>
       </div>
 

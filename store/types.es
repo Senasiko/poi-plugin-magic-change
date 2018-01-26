@@ -1,4 +1,4 @@
-import { pluginName } from '../config.es';
+import { pluginName } from '../config';
 export default {
   init_ship: `@${pluginName}/INIT_SHIP`,
   change_magic: `@${pluginName}/CHANGE_MAGIC`,

@@ -1,18 +1,20 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import { importFromShimakaze } from '../utils/fileUtils.es';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { importFromShimakaze } from '../utils/fileUtils';
 import { shimakazeGoPath } from '../store/selectors';
-import actions from '../store/actions.es';
-import SetShimakaze from './SetShimakaze.es';
-import Upload from './Upload.es';
-import SelectMagic from './SelectMagic.es';
+import * as styles from '../css';
+import actions from '../store/actions';
+import SetShimakaze from './SetShimakaze';
+import Upload from './Upload';
+import SelectMagic from './SelectMagic';
 
 class Menus extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      showMenus: false,
       menus: [
         {
           label: '岛风Go目录',
@@ -49,6 +51,8 @@ class Menus extends React.PureComponent {
         for (let magicChangeFile of magicChangeFileList) {
           upload_magicChange(magicChangeFile);
         }
+      }else {
+        info('没有找到魔改')
       }
     } catch (e) {
     }
@@ -60,25 +64,51 @@ class Menus extends React.PureComponent {
     })
   }
   render() {
-    const { menus, nowMenu } = this.state;
+    const { menus, nowMenu, showMenus } = this.state;
     return (
-      <div>
-      {
-        menus.map(menu => (
-          <Button
-            key={menu.key}
-            onClick={() => this.clickMenuButton.call(this, menu)}
+      <div style={{ marginTop: 15 }}>
+        <div
+          style={{
+            ...styles.menuGroup,
+            transform: `translateX(${showMenus?0:'100%'})`
+          }}
+          className="panel"
+        >
+          <a
+            style={styles.setButton}
+            onClick={() => { this.setState({ showMenus: !showMenus }) }}
           >
-            {menu.label}
-          </Button>
-        ))
-      }
-      <div>
-        {
-          nowMenu.component
-        }
+            <i
+              className={`fa ${showMenus?'fa-angle-double-right':'fa-angle-double-left'}`}
+            ></i>
+            </a>
+          <div className="panel-body">
+            <ButtonGroup vertical>
+              {
+                menus.map(menu => (
+                  <Button
+                    key={menu.key}
+                    onClick={() => this.clickMenuButton.call(this, menu)}
+                    active={nowMenu.key === menu.key}
+                  >
+                    {menu.label}
+                  </Button>
+                ))
+              }
+            </ButtonGroup>
+          </div>
+        </div>
+        <div className="panel">
+          <div className="panel-body">
+            {
+              nowMenu.component
+            }
+          </div>
+        </div>
       </div>
-      </div>
+
+
+
     );
   }
 }

@@ -1,10 +1,10 @@
 import { observe, observer } from 'redux-observers';
 import fs from 'fs-extra';
-import { store } from 'views/create-store.es';
+import { store } from 'views/create-store';
 import {
   pluginData
- } from './selectors.es';
-import { dataFile } from '../config.es';
+ } from './selectors';
+import { dataFile } from '../config';
 
 // set data json file
 const unsubscribeDataObserve = observe(store, [

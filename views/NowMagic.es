@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 import PropsTypes from 'prop-types';
 import path from 'path';
 import { Carousel, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
-import { nowMagicData, shimakazeGoPath } from '../store/selectors.es';
-import actions from '../store/actions.es';
-import * as styles from '../css.es';
-import { get_swf_img_base64, use_magicFile } from '../utils/fileUtils.es';
-import { getMagicChangeFilePath } from '../utils/pathUtils.es';
+import { nowMagicData, shimakazeGoPath } from '../store/selectors';
+import actions from '../store/actions';
+import * as styles from '../css';
+import { get_swf_img_base64, use_magicFile } from '../utils/fileUtils';
+import { getMagicChangeFilePath } from '../utils/pathUtils';
 
 class NowMagic extends React.PureComponent {
   static propTypes = {

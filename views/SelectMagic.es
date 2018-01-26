@@ -2,13 +2,13 @@ import { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import actions from '../store/actions.es';
+import actions from '../store/actions';
 import {
   shipListWithMagicData,
   nowShipByNowMagic,
   nowMagicData,
- } from '../store/selectors.es';
-import styles from '../css.es';
+ } from '../store/selectors';
+import styles from '../css';
 
 class SelectMagic extends PureComponent {
   constructor(props) {
@@ -25,7 +25,7 @@ class SelectMagic extends PureComponent {
   FieldGroup({ id, label, help, ...props }) {
   	return (
   		<FormGroup controlId={id}>
-  			<ControlLabel>{label}</ControlLabel>
+  			<ControlLabel style={{ marginRight: 15 }}>{label}</ControlLabel>
   			<FormControl {...props} />
   			{help && <HelpBlock>{help}</HelpBlock>}
   		</FormGroup>
@@ -57,7 +57,8 @@ class SelectMagic extends PureComponent {
             value: nowShip.id,
             style: {
               width: 200,
-              fontSize: 16
+              fontSize: 16,
+              marginRight: 15
             },
             onChange: this.select_ship.bind(this),
             children: [<option key="1" value={''}>请选择</option>]
@@ -79,6 +80,7 @@ class SelectMagic extends PureComponent {
             placeholder: "请选择魔改",
             style: {
               width: 200,
+              fontSize: 16
             },
             value: nowMagic.id,
             onChange: this.select_magic.bind(this),

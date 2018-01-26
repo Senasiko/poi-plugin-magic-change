@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { shimakazeGoPath } from '../store/selectors.es';
-import actions from '../store/actions.es';
+import { shimakazeGoPath } from '../store/selectors';
+import actions from '../store/actions';
 import { ControlLabel, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
 class Setting extends React.PureComponent {
@@ -17,7 +17,6 @@ class Setting extends React.PureComponent {
     const { change_shimakazeGoPath } = this.props.actions;
     return (
       <div>
-        <ControlLabel>岛风GO目录</ControlLabel>
         <FormControl
           componentClass="input"
           placeholder="岛风GO路径"
